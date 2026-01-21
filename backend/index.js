@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
+const db = require('./db')
 const cors = require('cors')
 
 
@@ -11,14 +12,14 @@ app.use(cors({
     origin:'*'
 }))
 
-
+db()
 
 
 app.get('/' ,(req , res)=>{
     res.send("server ready !!")
 })
 
-app.get('/home' , (req,res)=>{
+app.get('/home' , (req,res)=>{ 
     // all posts data from database
 })
 
