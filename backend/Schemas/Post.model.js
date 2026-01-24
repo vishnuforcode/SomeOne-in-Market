@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const PostSchema = new mongoose.Schema({
     createdBy:{
-        type : String,
+        type : mongoose.Schema.Types.ObjectId,
         ref : "User"
     },
     content : {
@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema({
         required : true
     },
     tillTime : {
-        type : String ,
+        type : Date ,
         required : true
     },
     conditions : {

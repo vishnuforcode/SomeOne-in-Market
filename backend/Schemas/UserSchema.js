@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
 
-  hosteName :{
+  hostelName :{
     type : String ,
     required : true
   }

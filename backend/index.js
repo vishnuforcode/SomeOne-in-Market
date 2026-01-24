@@ -4,15 +4,16 @@ dotenv.config()
 const db = require('./db')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-const UserSchema = require('./Schemas/UserSchema')
 const PostSchema = require('./Schemas/Post.model')
+const { User } = require('./Schemas/UserSchema')
 
 
 const app = express()
 
 app.use(express.json())
 app.use(cors({
-    origin:'*'
+    origin:'http://localhost:3000' ,
+    credentials : true
 }))
 
 db()
@@ -29,15 +30,33 @@ app.get('/home' , async (req,res)=>{
   
      
 })
-app.get('/getToken' , async (req, res)=>{
-    const data = req.body
-    const token = await jwt.sign( data , process.env.SECRET_KEY)
+app.post('/login' , async (req, res)=>{
+    const {gmail} = req.body    // de structuring gmail from (body)
+    const token = await jwt.sign( {gmail} , process.env.SECRET_KEY)
+        res.cookie("token" , token , {maxAge: 10000 , httpOnly:true}).status(200).json({msg : "login succefull"})
+    
+    console.log(gamil)
+})
 
-    res.send(token)
 
+app.post('/register' , async (req,res)=>{
+           const data = req.body 
+    try{
+         if(data){
+         const response = await User.create(data)
+         res.json(response)
+         }
+    }catch(err){
+        console.log(err);
+        
+    }
+   
 })
 
 app.post('/post', async (req,res)=>{
+
+    // post data to database
+    
     try{
         const data = req.body
         if(data){
@@ -49,11 +68,8 @@ app.post('/post', async (req,res)=>{
         
     }
      
-    
-    
-    
 
-    // post data to database
+    
 })
 
 
