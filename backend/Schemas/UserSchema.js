@@ -3,12 +3,16 @@ const userSchema = new mongoose.Schema({
  name: {
     type: String,
     required: true,
-    trim: true
   },
 
-  hostelName :{
+  hostelName :{ 
     type : String ,
-    required : true
+    required :true 
+  },
+  
+  gmail:{
+    type : String,
+    required : true 
   }
 
 

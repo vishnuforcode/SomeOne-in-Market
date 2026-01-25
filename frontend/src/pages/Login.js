@@ -33,16 +33,16 @@ function Login() {
 
     <div className="container-fluid">
         <div className="container">
-            <form onSubmit={handleSubmit} className='form' action="">
-                <label htmlFor="" className='form-label'>username</label>
+            <form onSubmit={handleSubmit} className="form" action="">
+                <label htmlFor="" className=''>username</label>
                 <input type="text" name='name' value={formData.name} onChange={handleChange}
-                 className='form-input' />
+                 className='form-control mb-2 ' />
 
-                <label htmlFor="" className='form-label'>gamil</label>
+                <label htmlFor="" className="">gamil</label>
                 <input type="text" name='gmail' value={formData.gmail} onChange={handleChange}
-                className='form-input' />
+                className='form-control mb-2' />
 
-                <button type='submit'>Submit</button>
+                <input className='btn btn-primary form-control' type='submit'/>
             </form>
         </div>
     </div>

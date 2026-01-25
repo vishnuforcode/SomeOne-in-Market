@@ -7,13 +7,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Layout from './pages/Layout';
+import Register from './pages/Register' ;
+import CreatePost from './pages/CreatePost';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
       <Route path='' element={<Home/>}/>
       <Route path='/login' element={<Login/>}/>
-      {/* <Route path='/register' element={<Register/>}/> */}
+      <Route path='/register' element={<Register/>}/>
+      <Route path='/post' element={<CreatePost/>}/>
+      <Route path=':id/request' element={<CreatePost/>}/>
     </Route>
   )
 )

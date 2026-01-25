@@ -14,6 +14,7 @@ function Navabr() {
                 <div className="col-lg-3 d-flex justify-content-around" >
                     <Link  className='h5 text-decoration-none'  to={'/login'}>Login</Link>
                     <Link  className='h5 text-decoration-none' to={'/register'}>Register</Link>
+                    <Link  className='h5 text-decoration-none' to={'/post'}>Post</Link>
                 </div>
             </div>
         
