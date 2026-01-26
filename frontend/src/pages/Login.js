@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
-import axios from 'axios' 
+import axios from 'axios'
+import { useNavigate  } from 'react-router' 
+import {useDispatch } from 'react-redux'
+import { setAuth } from '../slices/AuthSlice'
+import { Link } from 'react-router'
 
 function Login() {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     
     const [formData , setformData] = useState({
             name : "",
@@ -21,7 +27,15 @@ function Login() {
             e.preventDefault()
             try{
                     const res = await axios.post('http://localhost:8000/login' , formData , {withCredentials :true})  
-        console.log(res)
+        console.log(res.data)
+
+               
+                navigate('/')
+
+                 dispatch(
+                    setAuth({isAuth: true , userid : res.data.userId , username : res.data.username})
+                )
+        
             }catch(err){
                 console.log({"err": err})
             }
@@ -43,6 +57,10 @@ function Login() {
                 className='form-control mb-2' />
 
                 <input className='btn btn-primary form-control' type='submit'/>
+                <div className='text-center form-control'>
+                     <span>new user <Link to={'/register'}>register</Link></span>
+                </div>
+                   
             </form>
         </div>
     </div>

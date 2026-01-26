@@ -1,8 +1,10 @@
 import { useState } from "react"
 import axios from 'axios'
+import {  useNavigate } from "react-router"
 
 
 function Register(){
+    const navigate = useNavigate()
 
     const [formData , setFormData] = useState({
       name : "",
@@ -28,8 +30,9 @@ function Register(){
         console.log(formData);
         
          try{
-            const res = await axios.post('http://localhost:8000/register' , formData)
+            const res = await axios.post('http://10.211.231.104:8000/register' , formData) // for mobile --> http://10.211.231.104:8000 ,, for laptop --> http://localhost:8000
             console.log(res);
+            navigate("/login")
             
          }catch(err){
           console.log({"err": err});

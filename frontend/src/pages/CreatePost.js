@@ -1,7 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useSelector } from 'react-redux'
+import store from '../store/store'
+import { useNavigate } from 'react-router'
 
 function CreatePost() {
+    const userAuthId = useSelector((state) => state.auth.userid)
+    // console.log(userAuthId);
+
+    const navigate = useNavigate()
+    
 
 
     const [postData , setPostData] = useState({
@@ -27,16 +35,21 @@ function CreatePost() {
 
         try{
             const res = await axios.post('http://localhost:8000/post' , postData , {withCredentials : true})
-            console.log(res);
+           console.log(res.data);
+           navigate("/")
+          
             
         }catch(err){
             console.log({"err": err});
+            navigate('/login')
             
         }
     }
   return (
     <>
-    <div className="container-fluid">
+
+    {
+        userAuthId? ( <div className="container-fluid">
         <div className="container">
             <form action="" onSubmit={handleSubmit}>
                     
@@ -52,7 +65,15 @@ function CreatePost() {
                 <input type="submit" className='form-control btn btn-primary' />
             </form>
         </div>
-    </div>
+    </div>):(
+        <div className='container-fluid'>
+            <div className='container text-center'>
+                Login First
+            </div>
+        </div>
+    )
+    }
+   
     </>
   )
 }

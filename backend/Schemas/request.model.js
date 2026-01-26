@@ -9,6 +9,10 @@ const RequestSchema = new mongoose.Schema({
         type: String ,
         required : true
     },
+    createdOn : {
+        type: mongoose.Schema.Types.ObjectId ,
+        ref: "Post"
+    }
     
 })
 

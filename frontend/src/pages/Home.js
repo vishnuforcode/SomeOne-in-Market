@@ -1,8 +1,10 @@
 import React, {  useEffect, useState } from 'react'
 import axios from 'axios'
 import Post from '../components/Post'
+import {  useNavigate } from 'react-router'
 
 function Home() {
+  const navigate = useNavigate()
   const [Posts , setPosts] = useState([])
 
   useEffect(  ()=>{
@@ -14,7 +16,10 @@ function Home() {
       }catch(err){
          
        if (err.response && err.response.status === 401) {
-        alert("You are not authenticated. Please log in."); // or redirect to login
+        console.log ("You are not authenticated. Please log in.");
+          navigate('/login')
+          alert("login first")
+       
       } else {
         console.error(err.message);
       }
@@ -34,12 +39,16 @@ function Home() {
 
   return (
     <>
-        <div className="container-fluid">
-          <div className="container">
-            hello
-            {/* <button onClick={fetchData}>Click to get post</button> */}
 
-            <div className="row">
+    {
+      Post? (<div className="container-fluid">
+          <div className="container">
+           
+     
+
+
+           
+           <div className="row justify-content-center">
               
               {
                 Posts.map((post)=> (
@@ -48,9 +57,13 @@ function Home() {
               }
               
             </div>
+           
+            
             
           </div>
-        </div>
+        </div>):(<div>loading...</div>)
+    }
+        
     </>
   )
 }

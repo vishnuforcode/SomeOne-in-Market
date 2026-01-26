@@ -9,6 +9,9 @@ import Login from './pages/Login';
 import Layout from './pages/Layout';
 import Register from './pages/Register' ;
 import CreatePost from './pages/CreatePost';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import CreateRequest from './pages/CreateRequest';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,7 +20,7 @@ const router = createBrowserRouter(
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/post' element={<CreatePost/>}/>
-      <Route path=':id/request' element={<CreatePost/>}/>
+      <Route path=':id/request' element={<CreateRequest/>}/>
     </Route>
   )
 )
@@ -27,8 +30,11 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router}/>
+     </Provider>
       </React.StrictMode>
+     
 );
 
 // If you want to start measuring performance in your app, pass a function
