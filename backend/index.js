@@ -31,6 +31,14 @@ app.get('/' ,(req , res)=>{
 
 app.get('/home' , auth, async (req,res)=>{ 
      // all posts data from database
+
+    // const now = new Date();
+    // const data = await Post.find({ tillTime: { $gt: now } })
+    //     .populate("createdBy", "name")
+    //     .lean();
+    // res.json(data);
+
+    
     const data = await PostSchema.Post.find()
     .populate("createdBy" , "name") 
     .lean() 
@@ -84,13 +92,15 @@ app.post('/post', auth , async (req,res)=>{
         const user = req.user
         console.log(user)
     try{
-        const data  = req.body
+        const {content ,tillTime ,conditions  }  = req.body
         // if(!req.user.userid) {return res.json({msg:"Please Login First ."})}
-        if(data){
+        if(content){
            await PostSchema.Post.create(
             {
-                ...req.body,
+                content : content  ,
+                conditions :conditions ,
                 createdBy : req.user.userid,
+                tillTime: new Date(tillTime)
                 
             }
            )

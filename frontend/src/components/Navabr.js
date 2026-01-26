@@ -1,63 +1,122 @@
 import axios from 'axios'
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import { setAuth } from '../slices/AuthSlice'
+import React, { useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Toast } from 'bootstrap'
 
 function Navabr() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const isAuth = JSON.parse(localStorage.getItem("currentAuth"))
+  const toastRef = useRef(null)
 
-    const isAuth = useSelector((state)=> state.auth.currentAuth)
-    console.log(isAuth)
-    const handleLogOut =()=>{
-        try{
-            const res = axios.get("http://10.211.231.104:8000/logout" , {withCredentials : true})
-            // console.log(res);
-            navigate('/login')
-                dispatch(
-                    setAuth({isAuth: false , userid : "" , username : ""})
-                )
-            alert("logOut successfully")
+  const handleLogOut = async () => {
+    try {
+      await axios.get("http://localhost:8000/logout", { withCredentials: true })
+      localStorage.setItem("currentAuth", JSON.stringify(false))
 
-        }catch(err){
-            console.log({"err": err})
-        }
+      // toast
+      const toast = new Toast(toastRef.current)
+      toast.show()
+
+     
+      setTimeout(() => navigate('/login'), 1200)
+
+    } catch (err) {
+      console.log(err)
     }
+  }
+
   return (
     <>
-    <div className="container-fluid">
-        
-            <div className="row justify-content-between align-items-center p-2 mb-2" style={{backgroundColor:'gray' , opacity:'75%' , border:'2px solid gray'}}>
-                <div className="col">
-                    <Link className='h5 text-decoration-none' to={'/'}>SomeOneInMarket</Link>
-                </div>
-
-                <div className="col-lg-3 d-flex justify-content-around" >
-                    {
-                        isAuth? (<>
-                       
-                        <Link  className='h5 text-decoration-none' to={'/post'}>Post</Link>
-                        <button onClick={handleLogOut}>Logout</button>
-                        </>)
-                    :
-                    (<>
-                    <Link  className='h5 text-decoration-none'  to={'/login'}>Login</Link>
-                    <Link  className='h5 text-decoration-none' to={'/register'}>Register</Link>
-                    <Link  className='h5 text-decoration-none' to={'/post'}>Post</Link>
-                    <button onClick={handleLogOut}>Logout</button>
-                    </>)
-                    }
-                    
-                   
-                </div>
+      {/* Toast */}
+      <div className="toast-container position-fixed top-0 end-0 p-3">
+        <div
+          ref={toastRef}
+          className="toast align-items-center text-bg-success border-0"
+          role="alert"
+        >
+          <div className="d-flex">
+            <div className="toast-body">
+              ✅ Logged out successfully
             </div>
-        
-    </div>
-    </>    
+            <button
+              type="button"
+              className="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast"
+            ></button>
+          </div>
+        </div>
+      </div>
 
-)
+      {/* Navbar */}
+      <nav
+        className="navbar navbar-expand-lg navbar-dark px-3"
+        style={{
+          background: 'rgba(44, 45, 58, 0.7)',
+          backdropFilter: 'blur(10px)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 1000,
+        }}
+      >
+        <div className="container-fluid">
+          <Link className="navbar-brand fw-bold text-white" to="/">
+            SomeOneInMarket
+          </Link>
+
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+
+              {isAuth ? (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link btn btn-primary btn-sm px-3" to="/post">
+                      Create Post
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <button
+                      className="btn btn-outline-danger btn-sm px-3"
+                      onClick={handleLogOut}
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link text-white" to="/login">Login</Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link className="nav-link text-white" to="/register">Register</Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link className="btn btn-primary btn-sm px-3" to="/post">
+                      Create Post
+                    </Link>
+                  </li>
+                </>
+              )}
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </>
+  )
 }
 
 export default Navabr

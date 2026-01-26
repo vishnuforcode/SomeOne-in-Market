@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema({
         required : true
     },
     tillTime : {
-        type : String ,
+        type : Date ,
         required : true
     },
     conditions : {
@@ -19,5 +19,7 @@ const PostSchema = new mongoose.Schema({
 
     
 })
+
+PostSchema.index({ tillTime: 1 }, { expireAfterSeconds: 0 });
 
 export const Post = mongoose.model ("Post" , PostSchema)
