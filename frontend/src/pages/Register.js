@@ -26,7 +26,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.post('http://localhost:8000/register', formData)
+      await axios.post('https://hostelmanagerbackend.onrender.com/register', formData)
       // Navigate to login after registration
       navigate('/login')
       console.log(formData)

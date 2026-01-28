@@ -49,7 +49,7 @@ function CreateRequest() {
     e.preventDefault()
     try {
       await axios.post(
-        "http://10.211.231.104:8000/request",
+        "https://hostelmanagerbackend.onrender.com/request",
         request,
         { withCredentials: true }
       )
