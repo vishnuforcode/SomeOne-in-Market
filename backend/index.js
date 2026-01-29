@@ -169,9 +169,9 @@ res.status(200).json("logged out")
 })
 
 
-app.get('/wardenHome' , auth , RoleAuth , (req,res)=>{
-    res.send("hello this is warden access!!")
-})
+// app.get('/wardenHome' , auth , RoleAuth , (req,res)=>{
+//     res.send("hello this is warden access!!")
+// })
 
 app.patch("/warden/updateStatus/post/:id" , auth , RoleAuth,  async (req,res)=>{
     const id = req.params.id 
