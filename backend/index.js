@@ -12,6 +12,8 @@ const cookieParser = require('cookie-parser')
 const { Request } = require('./Schemas/request.model')
 const { default: RoleAuth } = require('./Middleware/RoleAuth')
 
+import path from "path";
+
 
 const app = express()
 
@@ -24,6 +26,19 @@ app.use(cors({
 }))
 
 db()
+
+
+const __dirname = path.resolve();
+
+// Serve frontend build
+app.use(express.static(path.join(__dirname, "frontend/build")));
+
+// Catch-all route (IMPORTANT)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/build", "index.html"));
+});
+
+
 
 
 app.get('/' ,(req , res)=>{
